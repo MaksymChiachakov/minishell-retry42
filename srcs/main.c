@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:32:01 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/17 15:22:17 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/17 15:33:04 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	main(int argc, char **argv, char **envp)
 		ctx.command = read_input_line();
 		if (!ctx.command)
 		{
-			if (isatty(STDIN_FILENO))
+			if (isatty(STDIN_FILENO)) // Ctrl + D
 				write(1, "exit\n", 5);
 			break ;
 		}
