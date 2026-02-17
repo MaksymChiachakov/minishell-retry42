@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmoses <fmoses@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:24:27 by fmoses            #+#    #+#             */
-/*   Updated: 2026/02/17 12:50:13 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/17 17:29:51 by fmoses           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	execute_command(t_env *e, t_command *cmd)
 	{
 		handle_child_signals();
 		if (is_builtin(cmd->args[0]))
-			exit(exec_builtin(cmd, e));
+			fexit(e, exec_builtin(cmd, e));
 		execute_commands_supp(e, cmd);
 	}
 	if (cmd->infd != STDIN_FILENO)
@@ -76,27 +76,24 @@ void	handle_parent_signals(t_env *e, int status)
 
 void	execute_commands(t_env *e)
 {
-	t_command	*first_cmd;
-	t_command	*cmd;
-
-	first_cmd = parse(e);
-	cmd = first_cmd;
-	if (cmd == NULL)
+	e->cmd = parse(e);
+	if (e->cmd == NULL)
 		return ;
-	if (cmd->args[0] == NULL && cmd->infd <= 0 && cmd->outfd <= 0 && !cmd->next)
+	if (e->cmd->args[0] == NULL && e->cmd->infd <= 0 && e->cmd->outfd <= 0
+		&& !e->cmd->next)
 	{
-		e->code_exit = ((cmd->infd == -1) || (cmd->outfd == -1));
-		free_command(cmd);
+		e->code_exit = ((e->cmd->infd == -1) || (e->cmd->outfd == -1));
+		clear_command(e);
 		return ;
 	}
-	if (!cmd->next && is_builtin(cmd->args[0]))
+	if (!e->cmd->next && is_builtin(e->cmd->args[0]))
 	{
-		if (!pipe_command(cmd))
-			e->code_exit = exec_builtin(cmd, e);
+		if (!pipe_command(e->cmd))
+			e->code_exit = exec_builtin(e->cmd, e);
 		else
 			e->code_exit = 1;
-		free_command(cmd);
+		clear_command(e);
 		return ;
 	}
-	process_command_pipeline(e, first_cmd);
+	process_command_pipeline(e);
 }

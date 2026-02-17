@@ -6,7 +6,7 @@
 #    By: fmoses <fmoses@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/29 14:15:23 by mchiacha          #+#    #+#              #
-#    Updated: 2026/02/13 17:28:08 by fmoses           ###   ########.fr        #
+#    Updated: 2026/02/17 15:29:12 by fmoses           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 SRC_DIR = srcs
 SRC = $(shell find ./srcs -name "*.c") \
-	$(shell find ./libft -name "*.c") \
 	$(shell find ./ft_printf -name "*.c") \
 	$(shell find ./get_next_line -name "*.c")
 

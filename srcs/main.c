@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmoses <fmoses@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:32:01 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/17 15:33:04 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/17 17:29:45 by fmoses           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,15 @@ void	free_shell(t_env *env)
 		free_env(env->envp);
 		env->envp = NULL;
 	}
+	clear_command(env);
+	clear_history();
+	rl_clear_history();
+}
+
+void	fexit(t_env *env, int code)
+{
+	free_shell(env);
+	exit(code);
 }
 
 int	is_all_whitepace(char *str)

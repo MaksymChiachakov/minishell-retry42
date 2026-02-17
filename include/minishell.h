@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmoses <fmoses@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:32:01 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/17 12:52:14 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/17 17:29:35 by fmoses           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,6 @@
 
 extern volatile sig_atomic_t	g_signal;
 
-typedef struct s_env
-{
-	char						**envp;
-	int							code_exit;
-	char						*command;
-	int							index;
-	char						**new_env;
-	bool						should_exit;
-}								t_env;
-
 typedef struct s_command
 {
 	char						**args;
@@ -52,6 +42,17 @@ typedef struct s_command
 	struct s_command			*next;
 	int							nextmode;
 }								t_command;
+
+typedef struct s_env
+{
+	char						**envp;
+	int							code_exit;
+	char						*command;
+	int							index;
+	char						**new_env;
+	bool						should_exit;
+	t_command					*cmd;
+}								t_env;
 
 typedef struct s_token
 {
@@ -82,10 +83,8 @@ void							handle_parent_signals(t_env *e, int status);
 int								pipe_command(t_command *cmd);
 int								execute_command(t_env *e, t_command *cmd);
 void							execute_commands_supp(t_env *e, t_command *cmd);
-void							handle_exec_end(t_env *e, int pid, int status,
-									t_command *cmd);
-void							process_command_pipeline(t_env *e,
-									t_command *first_cmd);
+void							handle_exec_end(t_env *e, int pid, int status);
+void							process_command_pipeline(t_env *e);
 
 /* expand.c */
 char							*expand(t_env *e, t_token t);
@@ -130,7 +129,8 @@ char							*read_input_line(void);
 void							print_error(char *cmd, char *arg, char *error);
 void							flag_error(t_env *e, char *cmd, char *arg,
 									char *error);
-void							check_execuable_error(char *bin);
+void							check_execuable_error(t_env *e, char *bin);
+void							fexit(t_env *env, int code);
 
 /* env */
 char							*get_env_value(char *key, t_env *env);
@@ -140,11 +140,10 @@ void							set_env_value(char *key, const char *value,
 void							remove_env_var(char *key, t_env *env);
 int								is_valid_env_name(char *name);
 void							free_env(char **env);
-
-/* felix */
 char							*find_env_var(t_env *e, char *name, int len);
 
 /* command */
+void							clear_command(t_env *e);
 void							free_command(t_command *cmd);
 t_command						*create_command(void);
 

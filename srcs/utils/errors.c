@@ -6,7 +6,7 @@
 /*   By: fmoses <fmoses@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 14:14:23 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/13 17:16:18 by fmoses           ###   ########.fr       */
+/*   Updated: 2026/02/17 15:43:22 by fmoses           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,26 @@ void	flag_error(t_env *e, char *cmd, char *arg, char *error)
 	e->code_exit = 2;
 }
 
-void	check_execuable_error(char *bin)
+void	check_execuable_error(t_env *e, char *bin)
 {
 	struct stat	st;
 
 	if (stat(bin, &st) != 0)
 	{
 		print_error(bin, NULL, "No such file or directory");
-		exit(127);
+		free(bin);
+		fexit(e, 127);
 	}
 	if (S_ISDIR(st.st_mode))
 	{
 		print_error(bin, NULL, "Permission denied");
-		exit(126);
+		free(bin);
+		fexit(e, 126);
 	}
 	if (access(bin, X_OK) != 0)
 	{
 		print_error(bin, NULL, "Permission denied");
-		exit(126);
+		free(bin);
+		fexit(e, 126);
 	}
 }

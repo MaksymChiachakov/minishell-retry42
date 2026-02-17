@@ -47,9 +47,9 @@ void	execute_commands_supp(t_env *e, t_command *cmd)
 
 	bin = get_bin(e, cmd->args[0]);
 	if (bin == NULL)
-		(print_error(cmd->args[0], NULL, "command not found"), exit(127));
+		(print_error(cmd->args[0], NULL, "command not found"), fexit(e, 127));
 	if (bin[0] == '.' || bin[0] == '/')
-		check_execuable_error(bin);
+		check_execuable_error(e, bin);
 	if (cmd->infd != STDIN_FILENO)
 		(dup2(cmd->infd, STDIN_FILENO), close(cmd->infd));
 	if (cmd->outfd != STDOUT_FILENO)
@@ -57,10 +57,10 @@ void	execute_commands_supp(t_env *e, t_command *cmd)
 	if (cmd->next)
 		close(cmd->next->infd);
 	execve(bin, cmd->args, e->envp);
-	(ft_putstr_fd("minishell: ", 2), perror(bin), free(bin), exit(127));
+	(ft_putstr_fd("minishell: ", 2), perror(bin), free(bin), fexit(e, 127));
 }
 
-void	handle_exec_end(t_env *e, int pid, int status, t_command *cmd)
+void	handle_exec_end(t_env *e, int pid, int status)
 {
 	if (pid != -1)
 		waitpid(pid, &status, 0);
@@ -70,17 +70,21 @@ void	handle_exec_end(t_env *e, int pid, int status, t_command *cmd)
 		handle_parent_signals(e, status);
 	else
 		e->code_exit = 1;
+<<<<<<< HEAD
 	restore_signals();
 	free_command(cmd);
+=======
+	clear_command(e);
+>>>>>>> a5c347c (fix most mem leaks)
 }
 
-void	process_command_pipeline(t_env *e, t_command *first_cmd)
+void	process_command_pipeline(t_env *e)
 {
 	t_command	*cmd;
 	int			pid;
 	int			status;
 
-	cmd = first_cmd;
+	cmd = e->cmd;
 	pid = 0;
 	status = 0;
 	ignore_signals();
@@ -92,5 +96,5 @@ void	process_command_pipeline(t_env *e, t_command *first_cmd)
 			pid = -1;
 		cmd = cmd->next;
 	}
-	handle_exec_end(e, pid, status, first_cmd);
+	handle_exec_end(e, pid, status);
 }
