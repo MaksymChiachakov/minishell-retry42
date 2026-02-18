@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoses <fmoses@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:32:01 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/17 17:29:35 by fmoses           ###   ########.fr       */
+/*   Updated: 2026/02/18 13:30:34 by mchiacha         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -69,7 +69,6 @@ enum							e_token_kind
 };
 
 # define ERROR 1111111111
-
 /* lexer.c */
 t_token							get_next_token(t_env *ctx);
 t_token							peek_next_token(t_env *e);
@@ -133,6 +132,7 @@ void							check_execuable_error(t_env *e, char *bin);
 void							fexit(t_env *env, int code);
 
 /* env */
+void							init_default_env(t_env *env);
 char							*get_env_value(char *key, t_env *env);
 char							**ft_copy_env(char **env);
 void							set_env_value(char *key, const char *value,
