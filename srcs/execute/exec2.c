@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchiacha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 19:52:13 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/17 12:45:30 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/18 13:03:53 by mchiacha         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -70,12 +70,9 @@ void	handle_exec_end(t_env *e, int pid, int status)
 		handle_parent_signals(e, status);
 	else
 		e->code_exit = 1;
-<<<<<<< HEAD
-	restore_signals();
-	free_command(cmd);
-=======
+		
 	clear_command(e);
->>>>>>> a5c347c (fix most mem leaks)
+
 }
 
 void	process_command_pipeline(t_env *e)
