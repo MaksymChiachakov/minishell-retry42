@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoses <fmoses@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:32:01 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/17 17:29:45 by fmoses           ###   ########.fr       */
+/*   Updated: 2026/02/18 13:21:27 by mchiacha         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -55,6 +55,7 @@ int	main(int argc, char **argv, char **envp)
 	ctx.envp = ft_copy_env(envp);
 	if (!ctx.envp)
 		return (ft_printf("Error: Failed to copy environment\n"), 1);
+	init_default_env(&ctx);
 	ctx.code_exit = 0;
 	ctx.should_exit = false;
 	setup_signals();
