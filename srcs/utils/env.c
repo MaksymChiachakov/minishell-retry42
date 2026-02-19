@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 14:14:43 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/19 14:38:02 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 14:52:35 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -100,17 +100,17 @@ char	*get_env_value(char *key, t_env *env)
 	return (NULL);
 }
 
-int	update_env_value(char *var, int key_len, t_env *env)
+int	update_env_value(char *v, int k, t_env *e)
 {
 	int		i;
 
 	i = -1;
-	while (env->envp[++i])
+	while (e->envp[++i])
 	{
-		if (ft_strncmp(env->envp[i], var, key_len + 1) == 0)
+		if (ft_strncmp(e->envp[i], v, k + 1) == 0)
 		{
-			free(env->envp[i]);
-			env->envp[i] = var;
+			free(e->envp[i]);
+			e->envp[i] = v;
 			return (1);
 		}
 	}

@@ -6,13 +6,14 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 14:29:25 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/19 14:30:16 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 14:51:23 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "minishell.h"
 
-int	heredoc_supp(t_env *e, char *line, struct sigaction *sa_old, int fds[2])
+/* heredoc support */
+int	hs(t_env *e, char *l, struct sigaction *s, int f[2])
 {
 	free(line);
 	close(fds[0]);

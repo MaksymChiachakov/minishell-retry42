@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:32:01 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/19 14:44:54 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 14:52:46 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -31,7 +31,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-#include <termios.h>
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -93,10 +92,10 @@ char							*expand(t_env *e, t_token t);
 
 /* heredoc.c */
 int								heredoc(t_env *e, t_command *cmd);
-int								heredoc_supp(t_env *e, char *line, struct sigaction *sa_old, int fds[2]);
+int								hs(t_env *e, char *l, struct sigaction *s, int f[2]);
 void							heredoc_supp_sec(char *line, int fds[2]);
 int								test_if(int fds[2], t_token *eof, t_env *e);
-int								heredoc_supp_finish(t_command *cmd, int fds[2], struct sigaction *sa_old);
+int								hsf(t_command *c, int f[2], struct sigaction *s);
 int								open_file(t_env *e, t_command *cmd, int flag);
 void							handle_sigint_heredoc(int sig);
 int								syntax_error(t_env *e, t_token t);
@@ -151,7 +150,7 @@ void							remove_env_var(char *key, t_env *env);
 int								is_valid_env_name(char *name);
 void							free_env(char **env);
 char							*find_env_var(t_env *e, char *name, int len);
-int								update_env_value(char *var, int key_len, t_env *env);
+int								update_env_value(char *v, int k, t_env *e);
 
 /* command */
 void							clear_command(t_env *e);
@@ -160,7 +159,7 @@ t_command						*create_command(void);
 
 /* signals */
 void							setup_signals(void);
-void	setup_signals_interactive(void);
+void							setup_signals_interactive(void);
 void							handle_child_signals(void);
 void							ignore_signals(void);
 void							restore_signals(void);

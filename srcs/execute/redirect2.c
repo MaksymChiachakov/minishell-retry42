@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 19:45:56 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/19 14:22:47 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 14:51:15 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -31,7 +31,8 @@ void setup_signals_heredoc(struct sigaction *old)
 	sigaction(SIGINT, &sa, old);
 }
 
-int	heredoc_supp_finish(t_command *cmd, int fds[2], struct sigaction *sa_old)
+/* heredoc support finish */
+int	hsf(t_command *c, int f[2], struct sigaction *s)
 {
 	write(1, "\n", 1);
 	sigaction(SIGINT, sa_old, NULL);
