@@ -12,18 +12,17 @@
 
 #include "minishell.h"
 
-void handle_sigint_heredoc(int sig)
+void	handle_sigint_heredoc(int sig)
 {
-    (void)sig;
-
-    g_signal = SIGINT;
-    write(1, "\n", 1);
-    rl_done = 1;
+	(void)sig;
+	g_signal = SIGINT;
+	write(1, "\n", 1);
+	rl_done = 1;
 }
 
-void setup_signals_heredoc(struct sigaction *old)
+void	setup_signals_heredoc(struct sigaction *old)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	sa.sa_handler = handle_sigint_heredoc;
 	sigemptyset(&sa.sa_mask);
