@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:32:01 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/19 14:26:35 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 15:18:34 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -45,6 +45,13 @@ int	is_all_whitepace(char *str)
 	return (true);
 }
 
+void	main_supp(t_env *ctx)
+{
+	add_history(ctx->command);
+	execute_commands(ctx);
+	setup_signals();
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_env	ctx;
@@ -69,11 +76,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		if (!is_all_whitepace(ctx.command))
-		{
-			add_history(ctx.command);
-			execute_commands(&ctx);
-			setup_signals();
-		}
+			main_supp(&ctx);
 		free(ctx.command);
 	}
 	return (free_shell(&ctx), ctx.code_exit);
