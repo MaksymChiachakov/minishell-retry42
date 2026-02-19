@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:32:01 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/19 14:52:46 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 15:29:20 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -163,5 +163,8 @@ void							setup_signals_interactive(void);
 void							handle_child_signals(void);
 void							ignore_signals(void);
 void							restore_signals(void);
+
+/* main norm */
+int								main_supp_sec(void);
 
 #endif

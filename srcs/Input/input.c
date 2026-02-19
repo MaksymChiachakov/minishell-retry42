@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoses <fmoses@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:35:35 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/01/14 21:58:48 by fmoses           ###   ########.fr       */
+/*   Updated: 2026/02/19 15:29:02 by mchiacha         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -41,7 +41,7 @@ char	*build_promt(void)
 	return (prompt);
 }
 
-static char	*read_inter_line(void)
+char	*read_inter_line(void)
 {
 	char	*promt;
 	char	*line;
@@ -74,4 +74,11 @@ char	*read_input_line(void)
 		return (read_inter_line());
 	else
 		return (read_non_inter_line());
+}
+
+int	main_supp_sec(void)
+{
+	if (isatty(STDIN_FILENO))
+		write(1, "exit\n", 5);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:32:01 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/19 15:18:34 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 15:29:32 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -69,12 +69,8 @@ int	main(int argc, char **argv, char **envp)
 	while (ctx.should_exit == false)
 	{
 		ctx.command = read_input_line();
-		if (!ctx.command)
-		{
-			if (isatty(STDIN_FILENO))
-				write(1, "exit\n", 5);
+		if (!ctx.command && main_supp_sec() == 0)
 			break ;
-		}
 		if (!is_all_whitepace(ctx.command))
 			main_supp(&ctx);
 		free(ctx.command);
