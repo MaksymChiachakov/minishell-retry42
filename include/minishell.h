@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:32:01 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/19 14:32:25 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 14:44:54 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -151,6 +151,7 @@ void							remove_env_var(char *key, t_env *env);
 int								is_valid_env_name(char *name);
 void							free_env(char **env);
 char							*find_env_var(t_env *e, char *name, int len);
+int								update_env_value(char *var, int key_len, t_env *env);
 
 /* command */
 void							clear_command(t_env *e);

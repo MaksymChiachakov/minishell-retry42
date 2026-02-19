@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 14:14:43 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/18 13:27:38 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 14:38:02 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -17,7 +17,7 @@ static char	**create_minimal_env(void)
 	char	**minimal_env;
 	char	cwd[4096];
 	char	*pwd;
-	
+
 	minimal_env = malloc(sizeof(char *) * 4);
 	if (!minimal_env)
 		return (NULL);
@@ -115,58 +115,4 @@ int	update_env_value(char *var, int key_len, t_env *env)
 		}
 	}
 	return (0);
-}
-
-void	set_env_value(char *key, const char *value, t_env *env)
-{
-	int		i;
-	char	*new_var;
-	char	**new_env;
-	size_t	key_len;
-
-	key_len = ft_strlen(key);
-	new_var = malloc(key_len + ft_strlen(value) + 2);
-	if (!new_var)
-		return ;
-	ft_strcpy(new_var, key);
-	new_var[key_len] = '=';
-	ft_strcpy(new_var + key_len + 1, (char *)value);
-	if (update_env_value(new_var, key_len, env))
-		return ;
-	new_env = calloc(ft_arrlen(env->envp) + 2, sizeof(char *));
-	if (!new_env)
-	{
-		free(new_var);
-		return ;
-	}
-	i = -1;
-	while (env->envp[++i])
-		new_env[i] = env->envp[i];
-	new_env[i] = new_var;
-	free(env->envp);
-	env->envp = new_env;
-}
-
-void	init_default_env(t_env *env)
-{
-	char	*shlvl_str;
-	int		shlvl;
-	char	*new_shlvl;
-	char	cwd[4096];
-	
-	if (getcwd(cwd, sizeof(cwd)))
-		set_env_value("PWD", cwd, env);
-	shlvl_str = get_env_value("SHLVL", env);
-	if (shlvl_str)
-	{
-		shlvl = ft_atoi(shlvl_str);
-		free(shlvl_str);
-	}
-	else
-		shlvl = 0;
-	shlvl++;
-	new_shlvl = ft_itoa(shlvl);
-	set_env_value("SHLVL", new_shlvl, env);
-	free(new_shlvl);
-	set_env_value("_", "./minishell", env);
 }
