@@ -6,20 +6,20 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 14:36:21 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/19 14:43:55 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 14:57:41 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "minishell.h"
 
-void set_env_value_supp(char *new_var, t_env *env)
+void	set_env_value_supp(char *new_var, t_env *env)
 {
-    char    **new_env;
-    int     i;
-    int     size;
+	char	**new_env;
+	int		i;	
+	int		size;
 
-    size = ft_arrlen(env->envp) + 2;
-    new_env = malloc(sizeof(char *) * size);
+	size = ft_arrlen(env->envp) + 2;
+	new_env = malloc(sizeof(char *) * size);
 	if (!new_env)
 	{
 		free(new_var);
@@ -57,7 +57,7 @@ void	init_default_env(t_env *env)
 	int		shlvl;
 	char	*new_shlvl;
 	char	cwd[4096];
-	
+
 	if (getcwd(cwd, sizeof(cwd)))
 		set_env_value("PWD", cwd, env);
 	shlvl_str = get_env_value("SHLVL", env);
