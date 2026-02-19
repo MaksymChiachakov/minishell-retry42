@@ -6,39 +6,40 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:35:35 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/19 15:31:52 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 15:37:31 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "minishell.h"
 
-#define BOLD_WHITE "\001\033[1;37m\002"
-#define BOLD_RED "\001\033[1;31m\002"
-#define RESET "\001\033[0m\002"
 
-char	*build_promt(void)
+#define RESET "\001\033[0m\002"
+#define BOLD_RED "\001\033[1;31m\002"
+#define BOLD_WHITE "\001\033[1;37m\002"
+
+char	*bpromt(void)
 {
-	const char	*username;
-	char		*prompt;
+	const char	*u_name;
+	char		*promt;
 	size_t		len;
 
-	username = getenv("USER");
-	if (!username)
-		username = "user";
-	len = ft_strlen(BOLD_WHITE) + ft_strlen(username) + ft_strlen(RESET)
+	u_name = getenv("USER");
+	if (!u_name)
+		u_name = "user";
+	len = ft_strlen(BOLD_WHITE) + ft_strlen(u_name) + ft_strlen(RESET)
 		+ ft_strlen(BOLD_RED) + ft_strlen("@") + ft_strlen(RESET)
 		+ ft_strlen(BOLD_RED) + ft_strlen("minishell> ") + ft_strlen(RESET);
-	prompt = malloc(sizeof(char) * (len + 1));
-	if (!prompt)
+	promt = malloc(sizeof(char) * (len + 1));
+	if (!promt)
 		return (NULL);
-	ft_strcpy(prompt, BOLD_WHITE);
-	ft_strcat(prompt, (char *)username);
-	ft_strcat(prompt, RESET);
-	ft_strcat(prompt, BOLD_RED);
-	ft_strcat(prompt, "@");
-	ft_strcat(prompt, "minishell> ");
-	ft_strcat(prompt, RESET);
-	return (prompt);
+	ft_strcpy(promt, BOLD_WHITE);
+	ft_strcat(promt, (char *)u_name);
+	ft_strcat(promt, RESET);
+	ft_strcat(promt, BOLD_RED);
+	ft_strcat(promt, "@");
+	ft_strcat(promt, "minishell> ");
+	ft_strcat(promt, RESET);
+	return (promt);
 }
 
 char	*read_inter_line(void)
@@ -46,7 +47,7 @@ char	*read_inter_line(void)
 	char	*promt;
 	char	*line;
 
-	promt = build_promt();
+	promt = bpromt();
 	if (!promt)
 		return (NULL);
 	line = readline(promt);
