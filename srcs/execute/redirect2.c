@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 19:45:56 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/19 14:51:15 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 15:08:05 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -35,10 +35,10 @@ void setup_signals_heredoc(struct sigaction *old)
 int	hsf(t_command *c, int f[2], struct sigaction *s)
 {
 	write(1, "\n", 1);
-	sigaction(SIGINT, sa_old, NULL);
+	sigaction(SIGINT, s, NULL);
 	setup_signals();
-	close(fds[1]);
-	if (cmd->infd == -1 || cmd->outfd == -1)
-		return (close(fds[0]), -1);
-	return (fds[0]);
+	close(f[1]);
+	if (c->infd == -1 || c->outfd == -1)
+		return (close(f[0]), -1);
+	return (f[0]);
 }

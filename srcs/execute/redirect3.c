@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 14:29:25 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/19 14:51:23 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 15:08:40 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -15,13 +15,13 @@
 /* heredoc support */
 int	hs(t_env *e, char *l, struct sigaction *s, int f[2])
 {
-	free(line);
-	close(fds[0]);
-	close(fds[1]);
+	free(l);
+	close(f[0]);
+	close(f[1]);
 	e->code_exit = 130;
 	g_signal = 0;
 	write(1, "\n", 1);
-	sigaction(SIGINT, sa_old, NULL);
+	sigaction(SIGINT, s, NULL);
 	return (-1);
 }
 

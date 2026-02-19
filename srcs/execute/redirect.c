@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:45:04 by fmoses            #+#    #+#             */
-/*   Updated: 2026/02/19 14:30:22 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 15:07:36 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -57,7 +57,7 @@ int	heredoc(t_env *e, t_command *cmd)
 		write(1, "> ", 2);
 		line = get_next_line(0);
 		if (g_signal == SIGINT)
-			return (cmd->infd = -1, heredoc_supp(e, line, &sa_old, fds));
+			return (cmd->infd = -1, hs(e, line, &sa_old, fds));
 		if (!line)
 			break ;
 		if (line[ft_strlen(line) - 1] == '\n')
@@ -66,7 +66,7 @@ int	heredoc(t_env *e, t_command *cmd)
 			break ;
 		heredoc_supp_sec(line, fds);
 	}
-	return (heredoc_supp_finish(cmd, fds, &sa_old));
+	return (hsf(cmd, fds, &sa_old));
 }
 
 int	open_file(t_env *e, t_command *cmd, int flag)
