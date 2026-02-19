@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:32:01 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/19 13:53:50 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 14:26:35 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -58,6 +58,7 @@ int	main(int argc, char **argv, char **envp)
 	init_default_env(&ctx);
 	ctx.code_exit = 0;
 	ctx.should_exit = false;
+	setup_signals();
 	while (ctx.should_exit == false)
 	{
 		ctx.command = read_input_line();

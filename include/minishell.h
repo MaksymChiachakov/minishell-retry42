@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 15:32:01 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/18 13:30:34 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 14:32:25 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -31,6 +31,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#include <termios.h>
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -50,6 +51,7 @@ typedef struct s_env
 	char						*command;
 	int							index;
 	char						**new_env;
+	int							tmp_stdin;
 	bool						should_exit;
 	t_command					*cmd;
 }								t_env;
@@ -69,6 +71,7 @@ enum							e_token_kind
 };
 
 # define ERROR 1111111111
+
 /* lexer.c */
 t_token							get_next_token(t_env *ctx);
 t_token							peek_next_token(t_env *e);
@@ -90,8 +93,15 @@ char							*expand(t_env *e, t_token t);
 
 /* heredoc.c */
 int								heredoc(t_env *e, t_command *cmd);
-int								heredoc_supp(t_command *cmd, int fds[2]);
+int								heredoc_supp(t_env *e, char *line, struct sigaction *sa_old, int fds[2]);
+void							heredoc_supp_sec(char *line, int fds[2]);
+int								test_if(int fds[2], t_token *eof, t_env *e);
+int								heredoc_supp_finish(t_command *cmd, int fds[2], struct sigaction *sa_old);
 int								open_file(t_env *e, t_command *cmd, int flag);
+void							handle_sigint_heredoc(int sig);
+int								syntax_error(t_env *e, t_token t);
+int								system_error(t_env *e, char *name);
+void							setup_signals_heredoc(struct sigaction *old);
 
 /* variables.c */
 char							*find_env_var(t_env *e, char *name, int len);
@@ -149,6 +159,7 @@ t_command						*create_command(void);
 
 /* signals */
 void							setup_signals(void);
+void	setup_signals_interactive(void);
 void							handle_child_signals(void);
 void							ignore_signals(void);
 void							restore_signals(void);
