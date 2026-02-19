@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 19:52:13 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/18 13:03:53 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 10:57:33 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -70,9 +70,7 @@ void	handle_exec_end(t_env *e, int pid, int status)
 		handle_parent_signals(e, status);
 	else
 		e->code_exit = 1;
-		
 	clear_command(e);
-
 }
 
 void	process_command_pipeline(t_env *e)
@@ -94,4 +92,9 @@ void	process_command_pipeline(t_env *e)
 		cmd = cmd->next;
 	}
 	handle_exec_end(e, pid, status);
+	if (g_signal == SIGINT)
+	{
+		e->code_exit = 130;
+		g_signal = 0;
+	}
 }
