@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:45:04 by fmoses            #+#    #+#             */
-/*   Updated: 2026/02/19 13:42:44 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/19 13:55:07 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -41,36 +41,13 @@ int	system_error(t_env *e, char *name)
 	return (-1);
 }
 
-
-
-
-// void setup_signals_heredoc(void)
-// {
-// 	struct sigaction sa;
-
-// 	sa.sa_handler = handle_sigint_heredoc;
-// 	sigemptyset(&sa.sa_mask);
-// 	sa.sa_flags = 0;              // ❗ ВАЖЛИВО: без SA_RESTART
-// 	sigaction(SIGINT, &sa, NULL);
-
-// 	// signal(SIGQUIT, SIG_IGN);   // ⭐ ВАЖЛИВО
-// }
-
-
 void handle_sigint_heredoc(int sig)
 {
     (void)sig;
+
     g_signal = SIGINT;
-
     write(1, "\n", 1);
-
-    // Очищаємо рядок readline
-    // rl_replace_line("", 0);
-    // rl_on_new_line();
-    // rl_redisplay(); // оновлюємо промпт
-
-    // Симулюємо EOF для readline
-    rl_done = 1; // якщо існує
+    rl_done = 1;
 }
 
 void setup_signals_heredoc(struct sigaction *old)
@@ -81,8 +58,6 @@ void setup_signals_heredoc(struct sigaction *old)
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, old);
-
-	// signal(SIGQUIT, SIG_IGN);
 }
 
 
@@ -92,7 +67,6 @@ int	heredoc(t_env *e, t_command *cmd)
 	char	*line;
 	t_token	eof;
 	int		fds[2];
-	// struct sigaction	sa_new;
 	struct sigaction	sa_old;
 	
 	if (pipe(fds) == -1)
@@ -100,20 +74,15 @@ int	heredoc(t_env *e, t_command *cmd)
 	eof = get_next_token(e);
 	if (eof.kind != TOKEN_WORD)
 		return (syntax_error(e, eof));
-	
-	// Встановлюємо обробник
 	setup_signals_heredoc(&sa_old);
 	g_signal = 0;
-	
 	while (1)
 	{
 		write(1, "> ", 2);
 		line = get_next_line(0);
-		
 		if (g_signal == SIGINT)
 		{
 			free(line);
-			// setup_signals_interactive();
 			close(fds[0]);
 			close(fds[1]);
 			cmd->infd = -1;
@@ -137,11 +106,9 @@ int	heredoc(t_env *e, t_command *cmd)
 		write(fds[1], "\n", 1);
 		free(line);
 	}
-	// Додаємо новий рядок після Ctrl+D
 	write(1, "\n", 1);
 	sigaction(SIGINT, &sa_old, NULL);
 	setup_signals();
-
 	return (heredoc_supp(cmd, fds));
 }
 
