@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 14:29:25 by mchiacha          #+#    #+#             */
-/*   Updated: 2026/02/19 15:08:40 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/20 11:02:01 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -38,6 +38,6 @@ int	test_if(int fds[2], t_token *eof, t_env *e)
 		return (system_error(e, "minishell: pipe: "));
 	*eof = get_next_token(e);
 	if ((*eof).kind != TOKEN_WORD)
-		return (syntax_error(e, *eof));
+		return (close(fds[0]), close(fds[1]), syntax_error(e, *eof));
 	return (0);
 }
