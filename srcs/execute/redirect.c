@@ -6,7 +6,7 @@
 /*   By: mchiacha <mchiacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:45:04 by fmoses            #+#    #+#             */
-/*   Updated: 2026/02/19 15:07:36 by mchiacha         ###   ########.fr       */
+/*   Updated: 2026/02/20 10:50:36 by mchiacha         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -26,6 +26,13 @@ int	is_eof(char *line, t_token eof)
 int	syntax_error(t_env *e, t_token t)
 {
 	ft_putstr_fd("minishell: syntax error near unexpected token '", 2);
+	if (t.len <= 0)
+	{
+		ft_putstr_fd("'\n", 2);
+		e->should_exit = true;
+		e->code_exit = 2;
+		return (-1);
+	}
 	write(2, t.str, t.len);
 	ft_putstr_fd("'\n", 2);
 	e->should_exit = true;
@@ -66,6 +73,7 @@ int	heredoc(t_env *e, t_command *cmd)
 			break ;
 		heredoc_supp_sec(line, fds);
 	}
+	free(line);
 	return (hsf(cmd, fds, &sa_old));
 }
 
